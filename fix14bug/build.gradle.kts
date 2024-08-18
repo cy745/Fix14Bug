@@ -1,9 +1,7 @@
-import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.vanniktech.maven.publish") version "0.29.0"
+    id("maven-publish")
 }
 
 android {
@@ -61,18 +59,15 @@ dependencies {
     implementation("com.bytedance.android:shadowhook:1.0.10")
 }
 
-mavenPublishing {
-    coordinates(
-        groupId = "com.github.cy745",
-        artifactId = "Fix14Bug",
-        version = "0.0.1"
-    )
-
-    configure(
-        AndroidSingleVariantLibrary(
-            variant = "release",
-            sourcesJar = false,
-            publishJavadocJar = false,
-        )
-    )
+afterEvaluate {
+    publishing {
+        publications {
+            register<MavenPublication>("release") {
+                from(components.getByName("release"))
+                groupId = "com.github.cy745"
+                artifactId = "Fix14Bug"
+                version = "0.0.1"
+            }
+        }
+    }
 }
