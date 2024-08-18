@@ -16,6 +16,13 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
+        externalNativeBuild {
+            cmake {
+                cppFlags += "-fvisibility=hidden"
+                arguments += listOf("-DANDROID_ARM_MODE=arm", "-DANDROID_STL=c++_static")
+            }
+        }
+
         ndk {
             abiFilters += listOf("armeabi-v7a", "arm64-v8a")
         }
@@ -64,8 +71,8 @@ mavenPublishing {
     configure(
         AndroidSingleVariantLibrary(
             variant = "release",
-            sourcesJar = true,
-            publishJavadocJar = true,
+            sourcesJar = false,
+            publishJavadocJar = false,
         )
     )
 }
