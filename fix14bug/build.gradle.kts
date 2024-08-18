@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -29,7 +31,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-
     }
     externalNativeBuild {
         cmake {
@@ -51,4 +52,20 @@ android {
 dependencies {
     implementation("androidx.startup:startup-runtime:1.1.1")
     implementation("com.bytedance.android:shadowhook:1.0.10")
+}
+
+mavenPublishing {
+    coordinates(
+        groupId = "com.github.cy745",
+        artifactId = "Fix14Bug",
+        version = "0.0.1"
+    )
+
+    configure(
+        AndroidSingleVariantLibrary(
+            variant = "release",
+            sourcesJar = true,
+            publishJavadocJar = true,
+        )
+    )
 }
